@@ -60,7 +60,12 @@ export class AppModelDarwin extends AppModel{
             if (!fs.existsSync(Path.join(rootPath.fsPath, "build.bat"))) {
                 let buildbatpath = Path.join(this.extensionPath, "resources", "build.bat");
                 let buildcurrentpath = Path.join(rootPath.fsPath, "build.bat");
+                try {
                 fs.copyFileSync(buildbatpath, buildcurrentpath,fs.constants.COPYFILE_EXCL);
+                }
+                catch (err) {
+                    console.log(err);
+                }
             }
         }
     }
@@ -76,7 +81,12 @@ export class AppModelDarwin extends AppModel{
             // Added gitkeep files to show it on git repo
             let gitinckeep = Path.join(this.extensionPath, "resources", "gitkeep.template");
             let gitinckeeppath = Path.join(rootPath.fsPath, "inc", ".gitkeep");
+            try {
             fs.copyFileSync(gitinckeep, gitinckeeppath,fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
         let resourcePath = Path.join(rootPath.fsPath, "res");
         if (!fs.existsSync(resourcePath)) {
@@ -84,20 +94,40 @@ export class AppModelDarwin extends AppModel{
             // Added gitkeep files to show it on git repo
             let gitreskeep = Path.join(this.extensionPath, "resources", "gitkeep.template");
             let gitreskeeppath = Path.join(rootPath.fsPath, "res", ".gitkeep");
-            fs.copyFileSync(gitreskeep, gitreskeeppath,fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(gitreskeep, gitreskeeppath,fs.constants.COPYFILE_EXCL)
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
         //Add README.md File
         let readmetemppath = Path.join(this.extensionPath, "resources", "README.md.template");
         let readmemdpath = Path.join(rootPath.fsPath, "README.MD");
-        fs.copyFileSync(readmetemppath, readmemdpath,fs.constants.COPYFILE_EXCL);
+        try {
+            fs.copyFileSync(readmetemppath, readmemdpath,fs.constants.COPYFILE_EXCL);
+        }
+        catch (err) {
+            console.log(err);
+        }
         //add .gitignorefile
         let ignoretemppath = Path.join(this.extensionPath, "resources", "gitignore.template");
         let ignorepath = Path.join(rootPath.fsPath, ".gitignore");
-        fs.copyFileSync(ignoretemppath, ignorepath,fs.constants.COPYFILE_EXCL);
+        try {
+            fs.copyFileSync(ignoretemppath, ignorepath,fs.constants.COPYFILE_EXCL);
+        }
+        catch (err) {
+            console.log(err);
+        }
         //add main.c hello world Example
         let mainctemppath = Path.join(this.extensionPath, "resources", "mainc.template");
         let maincpath = Path.join(rootPath.fsPath, "src", "main.c");
-        fs.copyFileSync(mainctemppath, maincpath,fs.constants.COPYFILE_EXCL);
+        try {
+            fs.copyFileSync(mainctemppath, maincpath,fs.constants.COPYFILE_EXCL);
+        }
+        catch (err) {
+            console.log(err);
+        }
         //add launch.json file with debuging configuration.
         let vscodedirpath = Path.join(rootPath.fsPath, ".vscode");
         if (!fs.existsSync(vscodedirpath)) {
@@ -108,11 +138,26 @@ export class AppModelDarwin extends AppModel{
         let makefiletemppath = Path.join(this.extensionPath, "resources", "Makefile.template");
         let toolchainType = vscode.workspace.getConfiguration().get(TOOLCHAINTYPE);
         if (toolchainType === MARSDEV) {
-            fs.copyFileSync(makefiletemppath, Path.join(rootPath.fsPath, "Makefile"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(makefiletemppath, Path.join(rootPath.fsPath, "Makefile"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
             //add boot directory
             fs.mkdirSync(Path.join(rootPath.fsPath, "boot"));
-            fs.copyFileSync(Path.join(this.extensionPath, "resources", "boot", "sega.s.template"), Path.join(rootPath.fsPath, "boot", "sega.s"),fs.constants.COPYFILE_EXCL);
-            fs.copyFileSync(Path.join(this.extensionPath, "resources", "boot", "rom_head.c.template"), Path.join(rootPath.fsPath, "boot", "rom_head.c"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(Path.join(this.extensionPath, "resources", "boot", "sega.s.template"), Path.join(rootPath.fsPath, "boot", "sega.s"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
+            try {
+                fs.copyFileSync(Path.join(this.extensionPath, "resources", "boot", "rom_head.c.template"), Path.join(rootPath.fsPath, "boot", "rom_head.c"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
         
          //add git repository to the project
@@ -123,20 +168,40 @@ export class AppModelDarwin extends AppModel{
         let toolchainType = vscode.workspace.getConfiguration().get(TOOLCHAINTYPE);
         if (toolchainType === MARSDEV) {
             let sourcefile = Path.join(extensionPath, "resources", "ccppsettings.linuxmarsdev.template");
-            fs.copyFileSync(sourcefile, Path.join(vscodepath, "settings.json"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(sourcefile, Path.join(vscodepath, "settings.json"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         } else if (toolchainType === SGDK_GENDEV || toolchainType===DOCKER) {
             let sourcefile = Path.join(extensionPath, "resources", "ccppsettings.macossgdk.template");
-            fs.copyFileSync(sourcefile, Path.join(vscodepath, "settings.json"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(sourcefile, Path.join(vscodepath, "settings.json"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         }    
     }
     private createlaunchjsonFile(vscodepath: string, extensionPath: string) {
         let toolchainType = vscode.workspace.getConfiguration().get(TOOLCHAINTYPE);
         if (toolchainType === MARSDEV) {
             let sourcefile = Path.join(extensionPath, "resources", "launch.json.linuxmarsdev.template");
-            fs.copyFileSync(sourcefile, Path.join(vscodepath, "launch.json"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(sourcefile, Path.join(vscodepath, "launch.json"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         } else if (toolchainType === SGDK_GENDEV || toolchainType===DOCKER) {
             let sourcefile = Path.join(extensionPath, "resources", "launch.json.macossgdk.template");
-            fs.copyFileSync(sourcefile, Path.join(vscodepath, "launch.json"),fs.constants.COPYFILE_EXCL);
+            try {
+                fs.copyFileSync(sourcefile, Path.join(vscodepath, "launch.json"),fs.constants.COPYFILE_EXCL);
+            }
+            catch (err) {
+                console.log(err);
+            }
         }    
     }
     public compileProject(newLine: boolean=true, withArg: string='release'): boolean {
